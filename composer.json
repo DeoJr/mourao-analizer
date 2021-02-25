@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "symfony/console": "^5.2",
-        "symfony/yaml": "^5.2",
-        "symfony/dependency-injection": "^5.2",
-        "symfony/config": "^5.2"
+        "symfony/console": "^4.2",
+        "symfony/yaml": "^4.2",
+        "symfony/dependency-injection": "^4.2",
+        "symfony/config": "^4.2"
     },
     "autoload": {
         "psr-4": {
