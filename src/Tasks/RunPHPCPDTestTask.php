@@ -33,7 +33,7 @@ class RunPHPCPDTestTask
     /**
      * @param array $modifiedFiles
      */
-    public function execute(array $modifiedFiles)
+    public function execute(?array $modifiedFiles)
     {
         $command = './vendor/bin/phpcpd '.implode(' ', $modifiedFiles);
         $result = $this->sendCommandToTerminalTask->execute($command);

@@ -55,11 +55,12 @@ class GetAllModifiedFilesTask
     }
 
     /**
-     * @param array $pullRequestFiles
+     * @param array|null $pullRequestFiles
      * @return array
      */
-    private function filterValidFiles(array $pullRequestFiles): array
+    private function filterValidFiles(?array $pullRequestFiles): array
     {
+        $phpFiles = [];
 
         foreach ($pullRequestFiles as $file) {
             $fileInfo = pathinfo($file);

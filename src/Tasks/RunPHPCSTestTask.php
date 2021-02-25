@@ -40,7 +40,7 @@ class RunPHPCSTestTask
     /**
      * @param array $modifiedFiles
      */
-    public function execute(array $modifiedFiles)
+    public function execute(?array $modifiedFiles)
     {
         $config = $this->getConfigurationFileDataTask->execute();
         $standard = $config['phpcs']['ruleset'];
