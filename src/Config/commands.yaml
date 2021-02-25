@@ -1,0 +1,47 @@
+services:
+
+  MouraoAnalizer\Commands\Configure:
+    public: true
+    arguments:
+      $name: 'configure'
+      $description: 'Configuração inicial'
+      $fileSystem: '@MouraoAnalizer\Helper\FileSystem'
+      $ymlFileName: '%configuration_file_name%'
+
+  MouraoAnalizer\Commands\RunCommand:
+    public: true
+    arguments:
+      $name: 'run:tests'
+      $description: 'Rodar todos os tests'
+
+  MouraoAnalizer\Commands\RunPHPMDTestCommand:
+    public: true
+    arguments:
+      $name: 'run:tests:phpmd'
+      $description: 'Rodar PHPMD'
+      $getAllModifiedFilesTask: '@MouraoAnalizer\Tasks\GetAllModifiedFilesTask'
+      $runPHPMDTestTask: '@MouraoAnalizer\Tasks\RunPHPMDTestTask'
+
+  MouraoAnalizer\Commands\RunPHPCSTestCommand:
+    public: true
+    arguments:
+      $name: 'run:tests:phpcs'
+      $description: 'Rodar PHPCS'
+      $getAllModifiedFilesTask: '@MouraoAnalizer\Tasks\GetAllModifiedFilesTask'
+      $runPHPCSTestTask: '@MouraoAnalizer\Tasks\RunPHPCSTestTask'
+
+  MouraoAnalizer\Commands\RunPHPCPDTestCommand:
+    public: true
+    arguments:
+      $name: 'run:tests:phpcpd'
+      $description: 'Rodar PHPCPD'
+      $getAllModifiedFilesTask: '@MouraoAnalizer\Tasks\GetAllModifiedFilesTask'
+      $runPHPCPDTestTask: '@MouraoAnalizer\Tasks\RunPHPCPDTestTask'
+
+  MouraoAnalizer\Commands\RunUnitTestsCommand:
+    public: true
+    arguments:
+      $name: 'run:tests:unit'
+      $description: 'Rodar todos os tests unitários'
+      $runUnitTestModifiedFilesTask: '@MouraoAnalizer\Tasks\RunUnitTestModifiedFilesTask'
+      $getAllModifiedFilesTask: '@MouraoAnalizer\Tasks\GetAllModifiedFilesTask'

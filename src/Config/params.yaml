@@ -1,0 +1,4 @@
+parameters:
+  app_name: 'Mourão Analizer'
+  version: '1.0.0'
+  configuration_file_name: 'mourao-analizer.yml'

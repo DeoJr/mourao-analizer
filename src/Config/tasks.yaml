@@ -1,0 +1,49 @@
+services:
+
+  MouraoAnalizer\Tasks\GetAllModifiedFilesTask:
+    public: true
+    arguments:
+      $sendCommandToTerminalTask: '@MouraoAnalizer\Tasks\SendCommandToTerminalTask'
+
+  MouraoAnalizer\Tasks\GetAllUnitTestFilesTask:
+    public: true
+
+  MouraoAnalizer\Tasks\SaveUnitTestFileConfiguration:
+    public: true
+    arguments:
+      $fileSystem: '@MouraoAnalizer\Helper\FileSystem'
+
+  MouraoAnalizer\Tasks\SendCommandToTerminalTask:
+    public: true
+    arguments:
+      $fileSystem: '@MouraoAnalizer\Helper\FileSystem'
+
+  MouraoAnalizer\Tasks\RunPHPMDTestTask:
+    public: true
+    arguments:
+      $sendCommandToTerminalTask: '@MouraoAnalizer\Tasks\SendCommandToTerminalTask'
+      $getConfigurationFileDataTask: '@MouraoAnalizer\Tasks\GetConfigurationFileDataTask'
+
+  MouraoAnalizer\Tasks\RunPHPCSTestTask:
+    public: true
+    arguments:
+      $sendCommandToTerminalTask: '@MouraoAnalizer\Tasks\SendCommandToTerminalTask'
+      $getConfigurationFileDataTask: '@MouraoAnalizer\Tasks\GetConfigurationFileDataTask'
+
+  MouraoAnalizer\Tasks\RunPHPCPDTestTask:
+    public: true
+    arguments:
+      $sendCommandToTerminalTask: '@MouraoAnalizer\Tasks\SendCommandToTerminalTask'
+
+  MouraoAnalizer\Tasks\RunUnitTestModifiedFilesTask:
+    public: true
+    arguments:
+      $getAllUnitTestFilesTask: '@MouraoAnalizer\Tasks\GetAllUnitTestFilesTask'
+      $sendCommandToTerminalTask: '@MouraoAnalizer\Tasks\SendCommandToTerminalTask'
+      $saveUnitTestFileConfiguration: '@MouraoAnalizer\Tasks\SaveUnitTestFileConfiguration'
+
+  MouraoAnalizer\Tasks\GetConfigurationFileDataTask:
+    public: true
+    arguments:
+      $fileSystem: '@MouraoAnalizer\Helper\FileSystem'
+      $fileName: '%configuration_file_name%'

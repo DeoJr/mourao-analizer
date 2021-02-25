@@ -1,0 +1,7 @@
+version: '3.5'
+services:
+    php:
+        container_name: php_moucao_analyzer
+        image: webjump/magento2-php:7.4.11
+        volumes:
+            - ./:/var/www/html

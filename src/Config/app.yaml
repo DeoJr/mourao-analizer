@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    autowire: true
+
+  _instanceof:
+    Symfony\Component\Console\Command\Command:
+      tags: ['command']
+
+  MouraoAnalizer\Application:
+    public: true
+    arguments:
+      $name: '%app_name%'
+      $version: '%version%'
+      $commands:
+        - '@MouraoAnalizer\Commands\Configure'
+        - '@MouraoAnalizer\Commands\RunUnitTestsCommand'
+        - '@MouraoAnalizer\Commands\RunPHPMDTestCommand'
+        - '@MouraoAnalizer\Commands\RunPHPCSTestCommand'
+        - '@MouraoAnalizer\Commands\RunPHPCPDTestCommand'

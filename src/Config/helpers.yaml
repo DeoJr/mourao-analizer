@@ -1,0 +1,4 @@
+services:
+
+  MouraoAnalizer\Helper\FileSystem:
+    public: true
