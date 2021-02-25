@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FileSystem
 {
-    private const BASE_PATH = __DIR__.'../../';
+    private const BASE_PATH = __DIR__.'/../../../../../';
 
     /**
      * @param string $path
