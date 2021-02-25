@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FileSystem
 {
-    private const BASE_PATH = '/home/webjump-nb097/Documentos/projetos/havan/';
+    private const BASE_PATH = __DIR__.'../../';
 
     /**
      * @param string $path
