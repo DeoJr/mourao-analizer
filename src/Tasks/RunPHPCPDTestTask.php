@@ -35,6 +35,9 @@ class RunPHPCPDTestTask
      */
     public function execute(?array $modifiedFiles)
     {
+        if (empty($modifiedFiles)) {
+            return 0;
+        }
         $command = './vendor/bin/phpcpd '.implode(' ', $modifiedFiles);
         $result = $this->sendCommandToTerminalTask->execute($command);
         print(implode(PHP_EOL, $result)).PHP_EOL;

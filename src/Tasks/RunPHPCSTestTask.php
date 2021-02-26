@@ -42,6 +42,9 @@ class RunPHPCSTestTask
      */
     public function execute(?array $modifiedFiles)
     {
+        if (empty($modifiedFiles)) {
+            return 0;
+        }
         $config = $this->getConfigurationFileDataTask->execute();
         $standard = $config['phpcs']['ruleset'];
         $command = "./vendor/bin/phpcs --colors --standard={$standard} ".implode(' ', $modifiedFiles);
