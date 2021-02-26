@@ -46,7 +46,7 @@ class RunUnitTestModifiedFilesTask
     public function execute(array $modifiedFiles)
     {
         if (empty($modifiedFiles)) {
-            return 0;
+            exit(0);
         }
         $unitTestFiles = $this->getAllUnitTestFilesTask->execute($modifiedFiles);
 

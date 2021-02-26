@@ -43,7 +43,7 @@ class RunPHPMDTestTask
     public function execute(?array $modifiedFiles)
     {
         if (empty($modifiedFiles)) {
-            return 0;
+            exit(0);
         }
         $config = $this->getConfigurationFileDataTask->execute();
         $ruleset = $config['phpmd']['ruleset'];
