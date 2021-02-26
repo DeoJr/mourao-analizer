@@ -14,7 +14,6 @@ namespace MouraoAnalizer\Commands;
 use MouraoAnalizer\Helper\FileSystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -26,8 +25,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class Configure extends Command
 {
-    const OPTION_MAGENTO_VERSION = 'magento-version';
-
     private $ymlFileContent = [];
 
     private $helperQuestion;
@@ -66,9 +63,7 @@ class Configure extends Command
     protected function configure()
     {
         $this->setName('configure')
-            ->setDescription('Configuração inicial')
-            ->setHelp('Recebe os parametros de versão do projeto e configura de acordo com os parametros recebido.')
-            ->addOption(self::OPTION_MAGENTO_VERSION, 'mv', InputOption::VALUE_REQUIRED, 'Versão do magento');
+            ->setDescription('Configuração inicial');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -80,6 +75,7 @@ class Configure extends Command
         try {
             $this->getMagentoVersion();
             $this->getPHPVersion();
+            $this->getTargetBranchDefault();
             $this->getDefaultPath();
             $this->getMinPercentUnitTest();
             if($this->fileSystem->fileExist($this->ymlFileName)) {
@@ -108,39 +104,39 @@ class Configure extends Command
 
     private function getMagentoVersion()
     {
-        $questionMagentoVersion = new Question('<info>Qual a versão do magento?</info> [<comment>Ex: 2.3.5</comment>]: ');
+        $questionMagentoVersion = new Question('<info>Qual a versão do magento?</info> [<comment>2.4.1</comment>]: ', '2.4.1');
         $magentoVersion = $this->helperQuestion->ask($this->input, $this->output, $questionMagentoVersion);
         $this->ymlFileContent['magento-version'] = $magentoVersion;
     }
 
     private function getPHPVersion()
     {
-        $questionMagentoVersion = new Question('<info>Qual a versão do PHP?</info> [<comment>Ex: 7.2</comment>]: ');
+        $questionMagentoVersion = new Question('<info>Qual a versão do PHP?</info> [<comment>7.4</comment>]: ', '7.4');
         $phpVersion = $this->helperQuestion->ask($this->input, $this->output, $questionMagentoVersion);
         $this->ymlFileContent['php-version'] = (double)$phpVersion;
     }
 
     private function getDefaultPath()
     {
-        $default = 'app/code';
-        $questionDefaultPath = new Question('<info>Qual a pasta padrão do projeto?</info> [<comment>'.$default.'</comment>]: ');
+        $questionDefaultPath = new Question('<info>Qual a pasta padrão do projeto?</info> [<comment>app/code</comment>]: ', 'app/code');
         $defaultPath = $this->helperQuestion->ask($this->input, $this->output, $questionDefaultPath);
-        $this->ymlFileContent['path'] = $default;
-        if(!empty($defaultPath)){
-            $this->ymlFileContent['path'] = $defaultPath;
-        }
+        $this->ymlFileContent['path'] = $defaultPath;
     }
 
     private function getMinPercentUnitTest()
     {
-        $minDefault = 80;
-        $questionPercentUnit = new Question('<info>Qual a porcentagem mínima para cobertura de teste unitário?</info> [<comment>'.$minDefault.'</comment>]: ');
-        $defaultPath = $this->helperQuestion->ask($this->input, $this->output, $questionPercentUnit);
-        $this->ymlFileContent['unit_test_coverage']['level'] = $minDefault;
-        if(!empty($defaultPath)){
-            $this->ymlFileContent['unit_test_coverage']['level'] = $defaultPath;
-        }
+        $questionPercentUnit = new Question('<info>Qual a porcentagem mínima para cobertura de teste unitário?</info> [<comment>80</comment>]: ', 80);
+        $coverageLevel = $this->helperQuestion->ask($this->input, $this->output, $questionPercentUnit);
+        $this->ymlFileContent['unit_test_coverage']['level'] = $coverageLevel;
     }
+
+    private function getTargetBranchDefault()
+    {
+        $questionTargetBranchDefault = new Question('<info>Qual a branch padrão?</info> [<comment>develop</comment>]: ', 'develop');
+        $targetBranchDefault = $this->helperQuestion->ask($this->input, $this->output, $questionTargetBranchDefault);
+        $this->ymlFileContent['default_branch'] = $targetBranchDefault;
+    }
+
 
     private function writeFile()
     {

@@ -2,3 +2,5 @@ services:
 
   MouraoAnalizer\Helper\FileSystem:
     public: true
+    arguments:
+      $appMode: '%app_mode%'

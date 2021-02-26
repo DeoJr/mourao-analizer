@@ -18,15 +18,26 @@ use Symfony\Component\Yaml\Yaml;
  */
 class FileSystem
 {
-    private const BASE_PATH = __DIR__.'/../../../../../';
+    private CONST DEVELOPER_MODE = 'developer';
+
+    private CONST PRODUCTION_MODE = 'production';
+
+    /** @var string $basePath */
+    private $basePath;
 
     /**
-     * @param string $path
-     * @return false|string
+     * FileSystem constructor.
+     * @param string $appMode
      */
-    public function readFile(string $path)
+    public function __construct(string $appMode)
     {
-        return file_get_contents(self::BASE_PATH . $path);
+        if ($appMode == self::DEVELOPER_MODE) {
+            $this->basePath = __DIR__.'/../../';
+        }
+
+        if ($appMode == self::PRODUCTION_MODE) {
+            $this->basePath = __DIR__.'/../../../../../';
+        }
     }
 
     /**
@@ -35,7 +46,7 @@ class FileSystem
      */
     public function fileExist(string $pathFile): bool
     {
-        return file_exists(self::BASE_PATH.$pathFile);
+        return file_exists($this->basePath.$pathFile);
     }
 
     /**
@@ -45,7 +56,7 @@ class FileSystem
      */
     public function writeFile(string $fileName, string $contentFile)
     {
-        return file_put_contents(self::BASE_PATH.$fileName, $contentFile);
+        return file_put_contents($this->basePath . $fileName, $contentFile);
     }
 
     /**
@@ -54,7 +65,7 @@ class FileSystem
      */
     public function getYamlFileData(string $path)
     {
-        return Yaml::parseFile(self::BASE_PATH .$path);
+        return Yaml::parseFile($this->basePath . $path);
     }
 
     /**
@@ -62,6 +73,6 @@ class FileSystem
      */
     public function getBasePath()
     {
-        return self::BASE_PATH;
+        return $this->basePath;
     }
 }

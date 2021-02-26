@@ -15,6 +15,7 @@ use MouraoAnalizer\Tasks\GetAllModifiedFilesTask;
 use MouraoAnalizer\Tasks\RunUnitTestModifiedFilesTask;
 use MouraoAnalizer\Tasks\TestClass;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,7 +41,10 @@ class RunUnitTestsCommand extends Command
         GetAllModifiedFilesTask $getAllModifiedFilesTask
     ) {
         parent::__construct($name);
-        $this->setDescription($description);
+        $this->setDescription($description)
+            ->addArgument('target-branch', InputArgument::REQUIRED)
+            ->addArgument('source-branch', InputArgument::REQUIRED);
+
         $this->runUnitTestModifiedFilesTask = $runUnitTestModifiedFilesTask;
         $this->getAllModifiedFilesTask = $getAllModifiedFilesTask;
     }
@@ -52,7 +56,10 @@ class RunUnitTestsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $modifiedFiles = $this->getAllModifiedFilesTask->execute('marketplace', 'feature/HV-171');
+        $modifiedFiles = $this->getAllModifiedFilesTask->execute(
+            $input->getArgument('target-branch'),
+            $input->getArgument('source-branch')
+        );
         $this->runUnitTestModifiedFilesTask->execute($modifiedFiles);
         return 1;
     }

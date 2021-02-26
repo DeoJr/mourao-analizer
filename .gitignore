@@ -1,5 +1,5 @@
 /vendor/*
 !/vendor/.htaccess
 .DS_Store
-mouraoanalizer.yml
+*.yml
 .idea/

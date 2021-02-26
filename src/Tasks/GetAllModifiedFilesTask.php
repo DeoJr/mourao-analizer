@@ -38,16 +38,16 @@ class GetAllModifiedFilesTask
     /**
      * Get all modified files
      *
-     * @param $defaultBranch
-     * @param $prBranch
+     * @param string $targetBranch
+     * @param string $sourceBranch
      * @return array
      */
-    public function execute($defaultBranch, $prBranch): array
+    public function execute(string $targetBranch, string $sourceBranch): array
     {
         $diffCommand = sprintf(
             'git diff --name-only --diff-filter=d origin/%s..origin/%s',
-            $defaultBranch,
-            $prBranch
+            $targetBranch,
+            $sourceBranch
         );
 
         $pullRequestFiles = $this->sendCommandToTerminalTask->execute($diffCommand);

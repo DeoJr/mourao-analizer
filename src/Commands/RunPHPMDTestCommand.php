@@ -14,6 +14,7 @@ namespace MouraoAnalizer\Commands;
 use MouraoAnalizer\Tasks\GetAllModifiedFilesTask;
 use MouraoAnalizer\Tasks\RunPHPMDTestTask;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -43,7 +44,10 @@ class RunPHPMDTestCommand extends Command
         RunPHPMDTestTask $runPHPMDTestTask
     ) {
         parent::__construct($name);
-        $this->setDescription($description);
+        $this->setDescription($description)
+            ->addArgument('target-branch', InputArgument::REQUIRED)
+            ->addArgument('source-branch', InputArgument::REQUIRED);
+
         $this->getAllModifiedFilesTask = $getAllModifiedFilesTask;
         $this->runPHPMDTestTask = $runPHPMDTestTask;
     }
@@ -55,7 +59,10 @@ class RunPHPMDTestCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $modifiedFiles = $this->getAllModifiedFilesTask->execute('marketplace', 'feature/HV-170');
+        $modifiedFiles = $this->getAllModifiedFilesTask->execute(
+            $input->getArgument('target-branch'),
+            $input->getArgument('source-branch')
+        );
         $this->runPHPMDTestTask->execute($modifiedFiles);
         return 1;
     }
